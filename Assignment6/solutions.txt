@@ -1,0 +1,9 @@
+a) The two operations that cannot be pipelined are adding to 'sum' and incrementing i because they depend on the variable 
+'i' being updated every iteration through the for loop and cannot start until the previous value has finished being 
+calculated.  
+
+b) the best case cycles per element is 3 because thats the latency of the slowest operation that cannot be pipelined.
+
+d) Inner2 is more efficient than inner because it uses four way loop unrolling with 4 parallel accumulators so that it
+wastes less time with loop overhead such as incrementing i and conditional checks to stay in the loop. When I tested
+inner and inner2 with array lengths from 10 to 100000, I found that inner2 ran almost 2x faster than inner every time. 

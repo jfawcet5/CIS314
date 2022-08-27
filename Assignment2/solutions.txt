@@ -1,0 +1,80 @@
+#4 A.) 0x000000C6
+       step 1: 0x000000C6 = 0b 0000 0000 0000 0000 0000 0000 1100 0110 
+       step 2: (2^7) + (2^6) + (2^2) + (2^1)
+       step 3: 128 + 64 + 4 + 2
+       answer: 198
+
+   B.) 0xFFFFFEC4
+       step 1: 0xFFFFFEC4 = 0b 1111 1111 1111 1111 1111 1110 1100 0100
+       step 2: flip the bits:  0000 0000 0000 0000 0000 0001 0011 1011 
+       step 3: (2^8) + (2^5) + (2^4) + (2^3) + (2) + 1 = 315
+       step 4: add 1: 315 + 1 = 316
+       answer: -316
+
+   C.) 0xFFFFFFFF
+       step 1: 0xFFFFFFFF = 0b 1111 1111 1111 1111 1111 1111 1111 1111
+       step 2: flip the bits:  0000 0000 0000 0000 0000 0000 0000 0000
+       step 3: add 1: 0 + 1 = 1
+       answer: -1
+
+#5 A.) 0x80000000
+       step 1: 0x80000000 = 0b 1000 0000 0000 0000 0000 0000 0000 0000
+       step 2: split up different fields: sign:1 exp:00000000 frac:00000000000000000000000
+       step 3: exp = 000...0, frac= 000...0 , represents 0 value
+       step 4: sign = 1 = negative
+       answer: -0.0
+
+   B.) 0x3FC00000
+       step 1: 0x3FC00000 = 0b 0011 1111 1100 0000 0000 0000 0000 0000 
+       step 2: split up different fields: sign: 0, exp: 01111111, frac: 10000...0
+       step 3: exp = (2^6) + (2^5) + ... + (2^0) = 127, M = 1.100000...0
+       step 4: (-1^0)*(1.1000...0)*2^(127-127) = 1*(1.1000...0)*1 = 1.10000...0
+       step 5: 2^0 + 2^-1 = 1 + (1/2)
+       answer: 1.5
+
+   C.) 0xC1340000
+       step 1: 0xC1340000 = 0b 1100 0001 0011 0100 0000 0000 0000 0000
+       step 2: split up different fields: sign: 1, exp: 10000010, frac: 0110100000...0
+       step 3: exp = (2^7) + (2^1) = 128 + 2 = 130, M = 1.01101000000...0
+       step 4: (-1^1)*(1.01101)*(2^130-127) = -1*(1.01101)*2^3
+       step 5: -1 * 1011.01
+       step 6: 1011.01 = 2^3 + 2^1 + 2^0 + 2^-2 = 8 + 2 + 1 + (1/4)
+       answer: -11.25
+
+#6 A.) 1.0
+       step 1: sign = 0
+       step 2: 1.0 = 1 and 0.0
+       step 3: 0001.0000
+       step 4: 1.0*2^0
+       step 5: exp = 0 + 127 = 127
+       step 6: 127 = 01111111
+       step 7: frac = 0000...0
+       step 8: put pieces together: sign-exp-frac: 0 01111111 00000...0
+       step 9: 0011 1111 1000 0000 0000 0000 0000 0000
+       answer: 0x3F800000 
+
+   B.) 16.5
+       step 1: sign = 0
+       step 2: 16.5 = 16 and 0.5
+       step 3: 10000 and .1
+       step 4: 10000.1
+       step 5: 1.000010*2^4
+       step 6: exp = 4 + 127 = 131
+       step 7: 130 = 10000011
+       step 8: frac = 00001
+       step 9: put pieces together: sign-exp-frac: 0 10000011 000010...0
+       step 10: 0100 0001 1000 0100 0000 0000 0000 0000
+       answer: 0x41840000
+
+   C.) -314.75
+       step 1: sign = 1
+       step 2: 314.75 = 314 and .75
+       step 3: 100111010 and .11
+       step 4: 100111010.11
+       step 5: 1.0011101011*2^8
+       step 6: exp = 8 + 127 = 135
+       step 7: 135 = 10000111
+       step 8: frac = 0011101011
+       step 9: put pieces together: sign-exp-frac: 1 10000111 0011101011
+       step 10: 1100 0011 1001 1101 0110 0000 0000 0000
+       answer: 0xC39D6000

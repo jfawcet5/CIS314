@@ -1,0 +1,18 @@
+#2      A) The miss ratio of the code will be 1024/(3072+1024) which simplifies to 1/(3+1)
+
+	   This is because we are accessing the array in column major order which means that points[j][i].a will 
+	   miss every time it is executed but the next 3 lines of code will be hits because the cache will store points[j][i] 
+           and points[j][i+1] after the intial miss. Since n = 32, we are dealing with a 32x32 matrix containing Colorpoint 
+	   structs. For 1 iteration of the inner for loop there will be 1 miss and 3 hits which gives a miss ratio of
+	   1/(3+1). Since n = 32, then the inner for loop is ran 32*32 = 1024 times. Multiplying the top and bottom of the ratio
+	   by 1024 gives 1024/(3072+1024). 
+
+	B) The miss ratio of the code will be 512/(3584+512) which simplifies to 1/(7+1)
+
+	   This is because the array is being accessed in row major order which means that every other iteration of the
+	   inner for loop will be a miss. For example, points[0][0].a will miss then points[0][0].r/g/b will hit, then 
+	   the next iteration of the for loop will be points[0][1].a/r/g/b which will all hit because the cache can store
+	   2 structs. The first itertion of the for loop will give 1 miss and 3 hits and then the second iteration will 
+	   give 0 misses and 4 hits, then the third iteration will go back to 1 miss and 3 hits. This pattern yields a
+	   miss ratio of 1/(7+1). Multiplying the top and bottom by 512 (Not 1024 since it is every 2 iterations) will 
+	   give 512/(3584+512). 

@@ -1,0 +1,62 @@
+# Execution begins at address 0 
+    .pos 0
+    irmovq stack, %rsp      # Set up stack pointer
+    call main       # Execute main program
+    halt            # Terminate program 
+
+# Array of 10 elements
+    .align 8
+array:  .quad 0xA
+    .quad 0x9
+    .quad 0x1
+    .quad 0x7
+    .quad 0x6
+    .quad 0x2
+    .quad 0x4
+    .quad 0x3
+    .quad 0x5
+    .quad 0x8
+
+main:
+    irmovq array, %rdi   # Arg 1: input array
+    irmovq 0xA, %rsi     # Arg 2: size of input array
+    call sort
+    ret
+
+swap:  mrmovq (%r9),%rax
+    mrmovq (%rdx), %rcx
+    rmmovq %rcx, (%r9)
+    rmmovq %rax, (%rdx)
+    ret
+    
+sort:
+    irmovq 0x0, %rbx  # i = 0
+.L1:
+    rrmovq %rdi, %r9  # %r9 is j: j = 0
+    rrmovq %rsi, %r8  # %r8 is temp variable: temp = len(array)
+    subq %rbx, %r8    # temp = temp - i   
+    jl done           # jump to label "done" if temp < i
+.L2:
+    rrmovq %r9, %rdx    # rdx = j 
+    iaddq 0x8, %rdx     # rdx = j + 1
+    mrmovq (%r9), %rax  # %rax = array[j]
+    mrmovq (%rdx), %rcx # %rcx = array[j+1]
+    subq %rax, %rcx     # array[j+1] - array[j]
+    jl test             # jump to "test" if array[j] > array[j+1]
+    iaddq 0x8, %r9      # j = j+1
+    rrmovq %rdi, %r10   # %r10 is temp: temp = j
+    iaddq 0x50, %r10    # temp = len(array)
+    subq %r9, %r10      # temp = temp - j
+    jg .L2              # jump to ".L2" if temp > j
+    iaddq 0x1, %rbx     # i = i + 1
+    jmp .L1
+test:
+    call swap           # swap(array[j], array[j+1])
+    iaddq 0x8, %r9      # j = j+1
+    jmp .L2
+done:
+    ret
+    
+# Stack starts here and grows to lower addresses
+    .pos 0x200
+stack:
